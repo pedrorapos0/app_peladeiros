@@ -15,8 +15,7 @@ class CreateUserUseCase {
     password,
     birth_date,
   }: ICreateUserDTO): Promise<User> {
-
-    const emailExist = await this.userResposiitory.FindByEmail(email);
+    const emailExist = await this.userResposiitory.findByEmail(email);
 
     if (emailExist) {
       throw new AppError('Email already exists!');
