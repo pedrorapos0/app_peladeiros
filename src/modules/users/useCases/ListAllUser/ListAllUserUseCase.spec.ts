@@ -8,7 +8,7 @@ let createUserUseCase: CreateUserUseCase;
 
 describe('List all Users', () => {
   beforeEach(() => {
-    userReposiitory = new UserRepositoryInMemory();
+    userReposiitory = UserRepositoryInMemory.getInstance();
     createUserUseCase = new CreateUserUseCase(userReposiitory);
     listAllUserUseCase = new ListAllUserUseCase(userReposiitory);
   });

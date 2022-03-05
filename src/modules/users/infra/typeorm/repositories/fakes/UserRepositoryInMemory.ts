@@ -4,6 +4,20 @@ import ICreateUserDTO from '@modules/users/dtos/ICreateUserDTO';
 
 class UserRepositoryInMemory implements IUserRepository {
   private users: User[] = [];
+  private static instance: UserRepositoryInMemory | undefined;
+
+  private constructor(){}
+
+
+  public static getInstance(): UserRepositoryInMemory{
+    if(!this.instance){
+      this.instance = new UserRepositoryInMemory();
+    }
+
+    return this.instance;
+  }
+
+
 
   public async create({
     name,
