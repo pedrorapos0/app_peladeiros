@@ -28,6 +28,7 @@ describe('Create User', () => {
       birth_date,
     });
 
+    console.log(user);
     expect(user).toHaveProperty('id');
   });
 
