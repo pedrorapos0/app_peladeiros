@@ -3,10 +3,14 @@ import ICreateUserDTO from '@modules/users/dtos/ICreateUserDTO';
 import User from '@modules/users/infra/typeorm/entites/User';
 import IUserRepository from '@modules/users/repositories/IUserRepository';
 import AppError from '@shared/error/AppError';
-
+import { inject, injectable } from 'tsyringe';
+@injectable()
 class CreateUserUseCase {
-  constructor(private userResposiitory: IUserRepository) {
-    this.userResposiitory = userResposiitory;
+
+  constructor(
+    @inject('UserRepository') private userRespository: IUserRepository,
+  ) {
+    this.userRespository = userRespository;
   }
 
   public async execute({
@@ -15,7 +19,7 @@ class CreateUserUseCase {
     password,
     birth_date,
   }: ICreateUserDTO): Promise<User> {
-    const emailExist = await this.userResposiitory.findByEmail(email);
+    const emailExist = await this.userRespository.findByEmail(email);
 
     if (emailExist) {
       throw new AppError('Email already exists!');
@@ -23,7 +27,7 @@ class CreateUserUseCase {
 
     const passwordHashed = await hash(password, 8);
 
-    const user = await this.userResposiitory.create({
+    const user = await this.userRespository.create({
       name,
       email,
       password: passwordHashed,

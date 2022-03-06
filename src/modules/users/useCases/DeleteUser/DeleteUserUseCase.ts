@@ -1,8 +1,11 @@
 import IUserRepository from '@modules/users/repositories/IUserRepository';
 import AppError from '@shared/error/AppError';
-
+import { inject, injectable } from 'tsyringe';
+@injectable()
 class DeleteUserUseCase {
-  constructor(private userRepository: IUserRepository) {
+  constructor(
+    @inject('UserRepository') private userRepository: IUserRepository,
+  ) {
     this.userRepository = userRepository;
   }
 

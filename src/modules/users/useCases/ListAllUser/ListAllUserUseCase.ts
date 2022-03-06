@@ -1,8 +1,11 @@
 import User from '@modules/users/infra/typeorm/entites/User';
 import IUserRepository from '@modules/users/repositories/IUserRepository';
-
+import { inject, injectable } from 'tsyringe';
+@injectable()
 class ListAllUserUseCase {
-  constructor(private userRepository: IUserRepository) {
+  constructor(
+    @inject('UserRepository') private userRepository: IUserRepository,
+  ) {
     this.userRepository = userRepository;
   }
 

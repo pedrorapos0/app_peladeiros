@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import CreateUserUseCase from '@modules/users/useCases/CreateUser/CreateUserUseCase';
-import UserRepositoryInMemory from '@modules/users/infra/typeorm/repositories/fakes/UserRepositoryInMemory';
+import { container } from 'tsyringe';
+import UserRepository from '@modules/users/infra/typeorm/repositories/implementations/UserRepository';
 
 class CreateUserController {
   public async handler(
@@ -8,8 +9,7 @@ class CreateUserController {
     response: Response,
   ): Promise<Response> {
     const { name, email, password, birth_date } = request.body;
-    const userRepositoryInMemory = UserRepositoryInMemory.getInstance();
-    const createUserUseCase = new CreateUserUseCase(userRepositoryInMemory);
+    const createUserUseCase = container.resolve(CreateUserUseCase);
     const user = await createUserUseCase.execute({
       name,
       email,

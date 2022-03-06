@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import DeleteUserUseCase from '@modules/users/useCases/DeleteUser/DeleteUserUseCase';
-import UserRepositoryInMemory from '@modules/users/infra/typeorm/repositories/fakes/UserRepositoryInMemory';
+import { container } from 'tsyringe';
 
 class DeleteUserController {
   public async handler(
@@ -8,8 +8,8 @@ class DeleteUserController {
     response: Response,
   ): Promise<Response> {
     const { user_id } = request.params;
-    const userRepositoryInMemory = UserRepositoryInMemory.getInstance();
-    const deleteUserUseCase = new DeleteUserUseCase(userRepositoryInMemory);
+
+    const deleteUserUseCase = container.resolve(DeleteUserUseCase);
     await deleteUserUseCase.execute(user_id);
 
     return response.status(204).send();
