@@ -1,6 +1,7 @@
 import IUserRepository from '@modules/users/repositories/IUserRepository';
 import User from '@modules/users/infra/typeorm/entites/User';
 import ICreateUserDTO from '@modules/users/dtos/ICreateUserDTO';
+import { hash } from 'bcryptjs';
 
 class UserRepositoryInMemory implements IUserRepository {
   private users: User[] = [];
@@ -23,7 +24,8 @@ class UserRepositoryInMemory implements IUserRepository {
     birth_date,
   }: ICreateUserDTO): Promise<User> {
     const user = new User();
-    Object.assign(user, { name, email, password, birth_date });
+    const passwordhashed = await hash(password, 8);
+    Object.assign(user, { name, email, password: passwordhashed, birth_date });
     this.users.push(user);
     return user;
   }

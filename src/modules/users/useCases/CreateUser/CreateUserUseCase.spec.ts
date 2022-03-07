@@ -2,7 +2,7 @@ import UserRepositoryInMemory from '@modules/users/infra/typeorm/repositories/fa
 import CreateUserUseCase from '@modules/users/useCases/CreateUser/CreateUserUseCase';
 import AppError from '@shared/error/AppError';
 
-let userReposiitory: UserRepositoryInMemory;
+let userRepository: UserRepositoryInMemory;
 let createUserUseCase: CreateUserUseCase;
 const request = {
   name: 'Pedro Raposo',
@@ -13,8 +13,8 @@ const request = {
 
 describe('Create User', () => {
   beforeEach(() => {
-    userReposiitory = UserRepositoryInMemory.getInstance();
-    createUserUseCase = new CreateUserUseCase(userReposiitory);
+    userRepository = UserRepositoryInMemory.getInstance();
+    createUserUseCase = new CreateUserUseCase(userRepository);
   });
 
   it('Should be able to create a new user', async () => {
