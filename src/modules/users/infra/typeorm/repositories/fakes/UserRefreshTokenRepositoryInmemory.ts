@@ -55,6 +55,14 @@ class UserRefreshTokenRepositoryInmemory
     );
     return userRefreshToken;
   }
+  public async findUserId(
+    user_id: string,
+  ): Promise<UserRefreshToken | undefined> {
+    const userRefreshToken = this.usersRefreshRepository.find(
+      refreshToken => refreshToken.user_id === user_id,
+    );
+    return userRefreshToken;
+  }
 }
 
 export default UserRefreshTokenRepositoryInmemory;

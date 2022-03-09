@@ -19,7 +19,7 @@ interface IResponse {
 }
 
 @injectable()
-class AutenticateUserUseCase {
+class AuthenticateUserUseCase {
   constructor(
     @inject('UserRepository') private userRepository: IUserRepository,
     @inject('UserRefreshTokenRepository')
@@ -64,6 +64,13 @@ class AutenticateUserUseCase {
       expired_refresh_token_in_days,
     );
 
+    const userContainsRefreshToken =
+      await this.userRefreshTokenRepository.findUserId(userExist.id);
+
+    if (userContainsRefreshToken) {
+      await this.userRefreshTokenRepository.delete(userContainsRefreshToken.id);
+    }
+
     await this.userRefreshTokenRepository.create({
       refresh_token,
       user_id: userExist.id,
@@ -81,4 +88,4 @@ class AutenticateUserUseCase {
   }
 }
 
-export default AutenticateUserUseCase;
+export default AuthenticateUserUseCase;

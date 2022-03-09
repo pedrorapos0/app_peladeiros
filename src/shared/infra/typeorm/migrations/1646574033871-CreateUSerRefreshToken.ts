@@ -19,7 +19,7 @@ export default class CreateUSerRefreshToken1646574033871
           },
           {
             name: 'refresh_token',
-            type: 'uuid',
+            type: 'varchar',
           },
           {
             name: 'date_expiration',

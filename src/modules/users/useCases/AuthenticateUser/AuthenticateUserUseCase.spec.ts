@@ -1,12 +1,14 @@
 import UserRepositoryInMemory from '@modules/users/infra/typeorm/repositories/fakes/UserRepositoryInMemory';
-import AutenticateUserUseCase from '@modules/users/useCases/AuthenticateUser/AutenticateUserUseCase';
+import AutenticateUserUseCase from '@modules/users/useCases/AuthenticateUser/AuthenticateUserUseCase';
 import UserRefreshTokenRepositoryInmemory from '@modules/users/infra/typeorm/repositories/fakes/UserRefreshTokenRepositoryInmemory';
 import DayjsProvider from '@shared/container/providers/DateManipulationProvider/implementations/DayjsProvider';
 import AppError from '@shared/error/AppError';
+import auth from '@config/auth';
+import { sign } from 'jsonwebtoken';
 
 let userRepository: UserRepositoryInMemory;
 let dayjsProvider: DayjsProvider;
-let userRefreshTokenRepository: UserRefreshTokenRepositoryInmemory;
+let userRefreshTokenRepositoryInmemory: UserRefreshTokenRepositoryInmemory;
 let autenticateUserUseCase: AutenticateUserUseCase;
 const request = {
   name: 'Pedro Raposo',
@@ -18,24 +20,36 @@ const request = {
 describe('Autenticate user', () => {
   beforeEach(() => {
     userRepository = UserRepositoryInMemory.getInstance();
-    userRefreshTokenRepository =
+    userRefreshTokenRepositoryInmemory =
       UserRefreshTokenRepositoryInmemory.getInstance();
     dayjsProvider = new DayjsProvider();
     autenticateUserUseCase = new AutenticateUserUseCase(
       userRepository,
-      userRefreshTokenRepository,
+      userRefreshTokenRepositoryInmemory,
       dayjsProvider,
     );
   });
 
   it('Should be able to autenticate a user', async () => {
     const { name, email, password, birth_date } = request;
-    await userRepository.create({
+    const user = await userRepository.create({
       name,
       email,
       password,
       birth_date,
     });
+
+    const { secret_refreshToken, expered_refreshToken } = auth;
+    const refresh_token = sign({ email }, secret_refreshToken, {
+      subject: user.id,
+      expiresIn: expered_refreshToken,
+    });
+    await userRefreshTokenRepositoryInmemory.create({
+      refresh_token,
+      user_id: user.id,
+      date_expiration: new Date(),
+    });
+
     const response = await autenticateUserUseCase.execute(email, password);
 
     expect(response).toHaveProperty('token');

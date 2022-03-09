@@ -45,6 +45,15 @@ class UserRefreshTokenRepository implements IUserRefreshTokenRepository {
 
     return refreshToken;
   }
+
+  public async findUserId(
+    user_id: string,
+  ): Promise<UserRefreshToken | undefined> {
+    const userrefreshToken = this.userRefreshTokenRepository.findOne({
+      user_id,
+    });
+    return userrefreshToken;
+  }
 }
 
 export default UserRefreshTokenRepository;

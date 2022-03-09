@@ -6,6 +6,8 @@ import {
   ManyToOne,
   PrimaryColumn,
 } from 'typeorm';
+import { v4 as uuidV4 } from 'uuid';
+
 import User from './User';
 
 @Entity('user_refresh_token')
@@ -28,6 +30,12 @@ class UserRefreshToken {
 
   @CreateDateColumn()
   created_at: Date;
+
+  constructor() {
+    if (this.id === undefined) {
+      this.id = uuidV4();
+    }
+  }
 }
 
 export default UserRefreshToken;
