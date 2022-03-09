@@ -9,7 +9,7 @@ const createUserRefreshTokenController = new CreateUserRefreshTokenController();
 
 authenticateRoutes.post('/', authenticateUserController.handler);
 authenticateRoutes.post(
-  '/refreshtoken',
+  '/',
   ensureAuthentication,
   createUserRefreshTokenController.handler,
 );

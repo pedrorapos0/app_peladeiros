@@ -9,7 +9,6 @@ const createUserRefreshTokenController = new CreateUserRefreshTokenController();
 
 refreshTokenRoutes.post(
   '/:userRefreshtoken',
-  ensureAuthentication,
   createUserRefreshTokenController.handler,
 );
 

@@ -4,7 +4,7 @@ import IUserRefreshTokenRepository from '@modules/users/repositories/IUserRefres
 import IDateManipulationProvider from '@shared/container/providers/DateManipulationProvider/interfaces/IDateManipulationProvider';
 import auth from '@config/auth';
 import AppError from '@shared/error/AppError';
-import UserRefreshToken from '@modules/users/infra/typeorm/entites/UserRefreshToken';
+
 
 interface Payload {
   sub: string;
@@ -29,7 +29,6 @@ class CreateUserRefreshTokenUseCase {
 
   public async execute(
     refreshtoken: string,
-    user_id: string,
   ): Promise<IResponse> {
     const {
       secret_token,
@@ -40,15 +39,14 @@ class CreateUserRefreshTokenUseCase {
     } = auth;
 
     const userRefreshTokenExist =
-      await this.userRefreshTokenRepository.findUserIdAndRefreshToken(
+      await this.userRefreshTokenRepository.findByRefreshToken(
         refreshtoken,
-        user_id,
       );
 
     if (!userRefreshTokenExist) {
       throw new AppError('Refresh token does not exist', 401);
     }
-    let { email } = verify(refreshtoken, secret_refreshToken) as Payload;
+    let { email,sub: user_id } = verify(refreshtoken, secret_refreshToken) as Payload;
 
     const token = sign({}, secret_token, {
       subject: user_id,
@@ -66,7 +64,7 @@ class CreateUserRefreshTokenUseCase {
       expired_refresh_token_in_days,
     );
 
-    const newRefreshToken = await this.userRefreshTokenRepository.create({
+    const newUserRefreshToken = await this.userRefreshTokenRepository.create({
       refresh_token,
       user_id,
       date_expiration,
@@ -74,7 +72,7 @@ class CreateUserRefreshTokenUseCase {
 
     return {
       token,
-      userRefreshToken: newRefreshToken.refresh_token,
+      userRefreshToken: newUserRefreshToken.refresh_token,
     };
   }
 }

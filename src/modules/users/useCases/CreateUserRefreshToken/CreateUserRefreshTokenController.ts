@@ -7,7 +7,6 @@ class CreateUserRefreshTokenController {
     request: Request,
     response: Response,
   ): Promise<Response> {
-    const { id: user_id } = request.user;
     const { userRefreshtoken } = request.params;
 
     const createUserRefreshTokenUserCase = container.resolve(
@@ -16,7 +15,6 @@ class CreateUserRefreshTokenController {
 
     const newrefresh = await createUserRefreshTokenUserCase.execute(
       userRefreshtoken,
-      user_id,
     );
 
     return response.json(newrefresh);
