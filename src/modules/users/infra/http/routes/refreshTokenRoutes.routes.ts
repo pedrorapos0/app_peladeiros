@@ -1,7 +1,6 @@
 import { Router } from 'express';
 
 import CreateUserRefreshTokenController from '@modules/users/useCases/CreateUserRefreshToken/CreateUserRefreshTokenController';
-import ensureAuthentication from '../middlewares/ensureAuthentication';
 
 const refreshTokenRoutes = Router();
 

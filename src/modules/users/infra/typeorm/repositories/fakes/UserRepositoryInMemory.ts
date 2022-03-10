@@ -48,6 +48,14 @@ class UserRepositoryInMemory implements IUserRepository {
     const userIndex = this.users.findIndex(user => user.id === user_id);
     this.users.splice(userIndex, 1);
   }
+  public async update(user: User): Promise<User> {
+    const userIndex = this.users.findIndex(
+      userStoraged => userStoraged.id === user.id,
+    );
+    this.users[userIndex] = user;
+
+    return user;
+  }
 }
 
 export default UserRepositoryInMemory;

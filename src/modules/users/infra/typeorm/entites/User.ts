@@ -19,6 +19,9 @@ class User {
   birth_date: Date;
 
   @Column()
+  user_avatar: string;
+
+  @Column()
   admin: boolean;
 
   constructor() {
