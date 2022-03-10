@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import ListAllUserUseCase from '@modules/users/useCases/ListAllUser/ListAllUserUseCase';
 import { container } from 'tsyringe';
+import { classToPlain } from 'class-transformer';
 
 class ListAllUserController {
   public async handler(
@@ -10,7 +11,7 @@ class ListAllUserController {
     const listAllUserUseCase = container.resolve(ListAllUserUseCase);
     const users = await listAllUserUseCase.execute();
 
-    return response.json(users);
+    return response.json(classToPlain(users));
   }
 }
 

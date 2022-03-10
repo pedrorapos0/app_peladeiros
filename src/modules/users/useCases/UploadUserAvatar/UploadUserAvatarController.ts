@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import multer from 'multer';
 import { container } from 'tsyringe';
 import UploadUserAvatarUseCase from '@modules/users/useCases/UploadUserAvatar/UploadUserAvatarUseCase';
+import { classToPlain } from 'class-transformer';
 
 class UploadUserAvatarController {
   public async handler(
@@ -15,7 +16,7 @@ class UploadUserAvatarController {
       avatar_user: file?.filename,
       user_id,
     });
-    return response.json(user);
+    return response.json(classToPlain(user));
   }
 }
 

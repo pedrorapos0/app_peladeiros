@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import CreateUserUseCase from '@modules/users/useCases/CreateUser/CreateUserUseCase';
 import { container } from 'tsyringe';
-import UserRepository from '@modules/users/infra/typeorm/repositories/implementations/UserRepository';
+import { classToPlain } from 'class-transformer';
 
 class CreateUserController {
   public async handler(
@@ -17,7 +17,7 @@ class CreateUserController {
       birth_date,
     });
 
-    return response.status(201).json(user);
+    return response.status(201).json(classToPlain(user));
   }
 }
 

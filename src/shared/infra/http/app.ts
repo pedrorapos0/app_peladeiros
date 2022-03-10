@@ -14,6 +14,8 @@ const app = Express();
 
 app.use(Express.json());
 
+app.use('/avatar',Express.static('tmp'));
+
 app.use('/', routes);
 
 app.use(
