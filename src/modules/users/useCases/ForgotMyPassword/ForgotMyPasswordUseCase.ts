@@ -22,12 +22,10 @@ class ForgotMyPasswordUseCase {
     }
 
     const { secret_token, expered_token } = auth;
-    const jtwToken = sign({}, secret_token, {
+    const token = sign({}, secret_token, {
       subject: userExist.id,
       expiresIn: expered_token,
     });
-
-    const [, token] = jtwToken.split('.');
 
     await this.mailProvider.sendMailProvider({
       to: userExist.email,
