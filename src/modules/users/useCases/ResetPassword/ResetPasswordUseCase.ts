@@ -19,21 +19,24 @@ class ResetPasswordUseCase {
 
   public async execute(token: string, newPassword: string): Promise<void> {
     const { secret_token } = auth;
+    let user_id: string;
     try {
-      let { sub: user_id } = verify(token, secret_token) as IPayload;
-      const userExist = await this.userRepository.findById(user_id);
-
-      if (!userExist) {
-        throw new AppError('User not exist!');
-      }
-      const passwordHashed = await hash(newPassword, 8);
-
-      userExist.password = passwordHashed;
-
-      await this.userRepository.update(userExist);
+      let { sub } = verify(token, secret_token) as IPayload;
+      user_id = sub;
     } catch {
       throw new AppError('Token invalid!');
     }
+
+    const userExist = await this.userRepository.findById(user_id);
+
+    if (!userExist) {
+      throw new AppError('User not exist!');
+    }
+    const passwordHashed = await hash(newPassword, 8);
+
+    userExist.password = passwordHashed;
+
+    await this.userRepository.update(userExist);
   }
 }
 

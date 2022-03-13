@@ -3,6 +3,7 @@ import UserRepositoryInMemory from '@modules/users/infra/typeorm/repositories/fa
 import ResetPasswordUseCase from '@modules/users/useCases/ResetPassword/ResetPasswordUseCase';
 import AppError from '@shared/error/AppError';
 import { sign } from 'jsonwebtoken';
+import {v4 as uuidV4} from 'uuid';
 
 let userRepository: UserRepositoryInMemory;
 let resetPasswordUseCase: ResetPasswordUseCase;
@@ -34,10 +35,17 @@ describe('Reset Password', () => {
     expect(updated).toBeCalled();
   });
 
+  it('Should not be able to reset password to token ivalid', async () => {
+    await expect(
+      resetPasswordUseCase.execute('token-ivalid', '1234567'),
+    ).rejects.toEqual(new AppError('Token invalid!'));
+  });
+
   it('Should not be able to reset password a user non-exist', async () => {
+    const user_id_non_exist = uuidV4();
     const { secret_token, expered_token } = auth;
     const token = sign({}, secret_token, {
-      subject: 'user-non-exist',
+      subject: user_id_non_exist,
       expiresIn: expered_token,
     });
 
@@ -45,5 +53,4 @@ describe('Reset Password', () => {
       resetPasswordUseCase.execute(token, '1234567'),
     ).rejects.toEqual(new AppError('User not exist!'));
   });
-
 });

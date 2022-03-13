@@ -1,5 +1,5 @@
 import nodemailer, { Transporter } from 'nodemailer';
-import ISendMailDTO from '../../DTOS/ISendMailDTO';
+import ISendMailDTO from '@shared/container/providers/dtos/ISendMailDTO';
 import IMailProvider from '../interfaces/IMailProvider';
 
 class EtherealMailProvider implements IMailProvider {

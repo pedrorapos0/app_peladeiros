@@ -31,7 +31,7 @@ class ForgotMyPasswordUseCase {
       to: userExist.email,
       subject: 'Recuperação de Senha',
       from: 'App Peladeiro<noreply@peladeiro.com>',
-      text: `Clique no link para resetar a senha http://localhost:3333?token=${token}`,
+      text: `Clique no link para resetar a senha http://localhost:3333/resetpassword?token=${token}`,
     });
   }
 }
