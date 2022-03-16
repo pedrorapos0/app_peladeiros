@@ -3,16 +3,19 @@ import CreateUserUseCase from '@modules/users/useCases/CreateUser/CreateUserUseC
 import ListAllUserUseCase from '@modules/users/useCases/ListAllUser/ListAllUserUseCase';
 import DeleteUserUseCase from '@modules/users/useCases/DeleteUser/DeleteUserUseCase';
 import AppError from '@shared/error/AppError';
+import HashProviderFake from '@shared/container/providers/HashProvider/fakes/HashProviderFake';
 
 let userRepository: UserRepositoryInMemory;
 let createUserUseCase: CreateUserUseCase;
+let hashProviderFake: HashProviderFake;
 let listAllUserUseCase: ListAllUserUseCase;
 let deleteUserUseCase: DeleteUserUseCase;
 
 describe('Delete User', () => {
   beforeAll(() => {
     userRepository = UserRepositoryInMemory.getInstance();
-    createUserUseCase = new CreateUserUseCase(userRepository);
+    hashProviderFake = new HashProviderFake();
+    createUserUseCase = new CreateUserUseCase(userRepository, hashProviderFake);
     listAllUserUseCase = new ListAllUserUseCase(userRepository);
     deleteUserUseCase = new DeleteUserUseCase(userRepository);
   });

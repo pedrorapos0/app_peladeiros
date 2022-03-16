@@ -1,15 +1,21 @@
 import UserRepositoryInMemory from '@modules/users/infra/typeorm/repositories/fakes/UserRepositoryInMemory';
 import ListAllUserUseCase from '@modules/users/useCases/ListAllUser/ListAllUserUseCase';
 import CreateUserUseCase from '@modules/users/useCases/CreateUser/CreateUserUseCase';
+import HashProviderFake from '@shared/container/providers/HashProvider/fakes/HashProviderFake';
 
 let userReposiitory: UserRepositoryInMemory;
 let listAllUserUseCase: ListAllUserUseCase;
+let hashProviderFake: HashProviderFake;
 let createUserUseCase: CreateUserUseCase;
 
 describe('List all Users', () => {
   beforeEach(() => {
     userReposiitory = UserRepositoryInMemory.getInstance();
-    createUserUseCase = new CreateUserUseCase(userReposiitory);
+    hashProviderFake = new HashProviderFake();
+    createUserUseCase = new CreateUserUseCase(
+      userReposiitory,
+      hashProviderFake,
+    );
     listAllUserUseCase = new ListAllUserUseCase(userReposiitory);
   });
 

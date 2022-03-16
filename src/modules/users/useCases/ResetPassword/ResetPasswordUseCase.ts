@@ -1,9 +1,9 @@
 import IUserRepository from '@modules/users/repositories/IUserRepository';
 import AppError from '@shared/error/AppError';
 import { inject, injectable } from 'tsyringe';
-import { hash } from 'bcryptjs';
 import { verify } from 'jsonwebtoken';
 import auth from '@config/auth';
+import IHashProvider from '@shared/container/providers/HashProvider/interfaces/IHashProvider';
 
 interface IPayload {
   sub: string;
@@ -13,8 +13,10 @@ interface IPayload {
 class ResetPasswordUseCase {
   constructor(
     @inject('UserRepository') private userRepository: IUserRepository,
+    @inject('HashProvider') private hashProvider: IHashProvider,
   ) {
     this.userRepository = userRepository;
+    this.hashProvider = hashProvider;
   }
 
   public async execute(token: string, newPassword: string): Promise<void> {
@@ -32,7 +34,7 @@ class ResetPasswordUseCase {
     if (!userExist) {
       throw new AppError('User not exist!');
     }
-    const passwordHashed = await hash(newPassword, 8);
+    const passwordHashed = await this.hashProvider.hash(newPassword);
 
     userExist.password = passwordHashed;
 

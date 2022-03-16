@@ -1,6 +1,7 @@
 import UserRepositoryInMemory from '@modules/users/infra/typeorm/repositories/fakes/UserRepositoryInMemory';
 import AutenticateUserUseCase from '@modules/users/useCases/AuthenticateUser/AuthenticateUserUseCase';
 import UserRefreshTokenRepositoryInmemory from '@modules/users/infra/typeorm/repositories/fakes/UserRefreshTokenRepositoryInmemory';
+import HashProviderFake from '@shared/container/providers/HashProvider/fakes/HashProviderFake';
 import DayjsProvider from '@shared/container/providers/DateManipulationProvider/implementations/DayjsProvider';
 import AppError from '@shared/error/AppError';
 import auth from '@config/auth';
@@ -8,6 +9,7 @@ import { sign } from 'jsonwebtoken';
 
 let userRepository: UserRepositoryInMemory;
 let dayjsProvider: DayjsProvider;
+let hashProviderFake: HashProviderFake;
 let userRefreshTokenRepositoryInmemory: UserRefreshTokenRepositoryInmemory;
 let autenticateUserUseCase: AutenticateUserUseCase;
 const request = {
@@ -23,10 +25,12 @@ describe('Autenticate user', () => {
     userRefreshTokenRepositoryInmemory =
       UserRefreshTokenRepositoryInmemory.getInstance();
     dayjsProvider = new DayjsProvider();
+    hashProviderFake = new HashProviderFake();
     autenticateUserUseCase = new AutenticateUserUseCase(
       userRepository,
       userRefreshTokenRepositoryInmemory,
       dayjsProvider,
+      hashProviderFake,
     );
   });
 

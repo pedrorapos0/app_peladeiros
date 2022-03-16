@@ -1,8 +1,10 @@
 import UserRepositoryInMemory from '@modules/users/infra/typeorm/repositories/fakes/UserRepositoryInMemory';
 import CreateUserUseCase from '@modules/users/useCases/CreateUser/CreateUserUseCase';
+import HashProviderFake from '@shared/container/providers/HashProvider/fakes/HashProviderFake';
 import AppError from '@shared/error/AppError';
 
 let userRepository: UserRepositoryInMemory;
+let hashProviderFake: HashProviderFake;
 let createUserUseCase: CreateUserUseCase;
 const request = {
   name: 'Pedro Raposo',
@@ -14,7 +16,8 @@ const request = {
 describe('Create User', () => {
   beforeEach(() => {
     userRepository = UserRepositoryInMemory.getInstance();
-    createUserUseCase = new CreateUserUseCase(userRepository);
+    hashProviderFake = new HashProviderFake();
+    createUserUseCase = new CreateUserUseCase(userRepository, hashProviderFake);
   });
 
   it('Should be able to create a new user', async () => {

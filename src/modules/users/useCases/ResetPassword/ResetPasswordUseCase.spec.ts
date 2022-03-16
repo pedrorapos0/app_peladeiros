@@ -1,17 +1,23 @@
 import auth from '@config/auth';
 import UserRepositoryInMemory from '@modules/users/infra/typeorm/repositories/fakes/UserRepositoryInMemory';
 import ResetPasswordUseCase from '@modules/users/useCases/ResetPassword/ResetPasswordUseCase';
+import HashProviderFake from '@shared/container/providers/HashProvider/fakes/HashProviderFake';
 import AppError from '@shared/error/AppError';
 import { sign } from 'jsonwebtoken';
-import {v4 as uuidV4} from 'uuid';
+import { v4 as uuidV4 } from 'uuid';
 
 let userRepository: UserRepositoryInMemory;
+let hashProviderFake: HashProviderFake;
 let resetPasswordUseCase: ResetPasswordUseCase;
 
 describe('Reset Password', () => {
   beforeEach(() => {
     userRepository = UserRepositoryInMemory.getInstance();
-    resetPasswordUseCase = new ResetPasswordUseCase(userRepository);
+    hashProviderFake = new HashProviderFake();
+    resetPasswordUseCase = new ResetPasswordUseCase(
+      userRepository,
+      hashProviderFake,
+    );
   });
 
   it('Should be able to reset password', async () => {

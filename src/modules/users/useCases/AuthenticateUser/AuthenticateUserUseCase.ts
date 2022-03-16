@@ -1,12 +1,12 @@
 import IUserRepository from '@modules/users/repositories/IUserRepository';
 import { inject, injectable } from 'tsyringe';
 import { sign } from 'jsonwebtoken';
-import { compare } from 'bcryptjs';
 import auth from '@config/auth';
 
 import AppError from '@shared/error/AppError';
 import IUserRefreshTokenRepository from '@modules/users/repositories/IUserRefreshTokenRepository';
 import IDateManipulationProvider from '@shared/container/providers/DateManipulationProvider/interfaces/IDateManipulationProvider';
+import IHashProvider from '@shared/container/providers/HashProvider/interfaces/IHashProvider';
 
 interface IResponse {
   user: {
@@ -25,10 +25,12 @@ class AuthenticateUserUseCase {
     @inject('UserRefreshTokenRepository')
     private userRefreshTokenRepository: IUserRefreshTokenRepository,
     @inject('DayjsProvider') private dayjsProvider: IDateManipulationProvider,
+    @inject('HashProvider') private hashProvider: IHashProvider,
   ) {
     this.userRepository = userRepository;
     this.userRefreshTokenRepository = userRefreshTokenRepository;
     this.dayjsProvider = dayjsProvider;
+    this.hashProvider = hashProvider;
   }
 
   public async execute(email: string, password: string): Promise<IResponse> {
@@ -44,7 +46,10 @@ class AuthenticateUserUseCase {
       throw new AppError('email or password incorrect!', 404);
     }
 
-    const passwordCompare = await compare(password, userExist.password);
+    const passwordCompare = await this.hashProvider.compare(
+      password,
+      userExist.password,
+    );
 
     if (!passwordCompare) {
       throw new AppError('email or password incorrect!', 404);
