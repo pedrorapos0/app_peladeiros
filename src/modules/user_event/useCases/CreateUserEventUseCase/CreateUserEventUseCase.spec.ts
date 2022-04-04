@@ -1,15 +1,16 @@
 import UserRefreshTokenRepositoryInmemory from '@modules/users/infra/typeorm/repositories/fakes/UserRepositoryInMemory';
-import CreateUserEventUseCase from '@modules/user_event/usecases/CreateUserEventUseCase';
-import CreateUserEventInMemory from '@modules/user_event/infra/typeorm/repositories/CreateUserEventInMemory';
+import CreateUserEventUseCase from '@modules/user_event/useCases/CreateUserEventUseCase/CreateUserEventUseCase';
+import UserEventRepositoryInMemory from '@modules/user_event/infra/typeorm/repositories/fakes/UserEventRepositoryInMemory';
+import AppError from '@shared/error/AppError';
 
 let userRepositoryInMemory: UserRefreshTokenRepositoryInmemory;
-let createUserEventInMemory: CreateUserEventInMemory;
+let createUserEventInMemory: UserEventRepositoryInMemory;
 let createUserEventUseCase: CreateUserEventUseCase;
 
 describe('Create use event', () => {
   beforeEach(() => {
     userRepositoryInMemory = UserRefreshTokenRepositoryInmemory.getInstance();
-    createUserEventInMemory = CreateUserEventInMemory.getInstance();
+    createUserEventInMemory = UserEventRepositoryInMemory.getInstance();
     createUserEventUseCase = new CreateUserEventUseCase(
       userRepositoryInMemory,
       createUserEventInMemory,
@@ -34,5 +35,18 @@ describe('Create use event', () => {
     });
 
     expect(event).toHaveProperty('id');
+  });
+
+  it('Should not be able to create a new user event for a non-existent responsible', async () => {
+    await expect(
+      createUserEventUseCase.execute({
+        title: 'Event Test',
+        responsible_id: 'non-exist',
+        start_date: new Date('2022-03-23T 22:00:00'),
+        end_date: new Date('2022-03-23T 23:00:00'),
+        minimum_number_guests: 12,
+        maximum_number_guests: 18,
+      }),
+    ).rejects.toEqual(new AppError('User not found!'));
   });
 });

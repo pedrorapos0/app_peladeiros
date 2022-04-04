@@ -17,7 +17,7 @@ class DayjsProvider implements IDateManipulationProvider {
       before_date_utc,
       'hours',
       float,
-    );
+      );
     return diffInHours;
   }
 
@@ -28,16 +28,16 @@ class DayjsProvider implements IDateManipulationProvider {
     after_date: Date,
     before_date: Date,
     float = false,
-  ): number {
-    const after_date_utc = dayjs(after_date).utc().local().format();
-    const before_date_utc = dayjs(before_date).utc().local().format();
-    const diffInDays = dayjs(after_date_utc).diff(
-      before_date_utc,
-      'days',
-      float,
-    );
-    return diffInDays;
-  }
+    ): number {
+      const after_date_utc = dayjs(after_date).utc().local().format();
+      const before_date_utc = dayjs(before_date).utc().local().format();
+      const diffInDays = dayjs(after_date_utc).diff(
+        before_date_utc,
+        'days',
+        float,
+        );
+        return diffInDays;
+      }
   public addDateInDays(days: number): Date {
     return dayjs().add(days, 'days').toDate();
   }
@@ -48,6 +48,14 @@ class DayjsProvider implements IDateManipulationProvider {
 
   public compareIfBefore(start_date: Date, end_date: Date): boolean {
     return dayjs(start_date).isBefore(end_date);
+  }
+
+  public compareIfAfter(start_date: Date, end_date: Date): boolean {
+    return dayjs(start_date).isAfter(end_date);
+  }
+
+  public addHoursInDate(date: Date, hours: number): Date {
+    return dayjs(date).add(hours, 'hours').toDate();
   }
 }
 

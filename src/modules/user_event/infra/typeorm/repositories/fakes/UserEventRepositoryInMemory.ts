@@ -1,6 +1,6 @@
 import ICreateUserEventDTO from '@modules/user_event/dtos/ICreateUserEventDTO';
 import IUserEventRepository from '@modules/user_event/repositories/IUserEventRepository';
-import UserEvent from '../entites/UserEvent';
+import UserEvent from '../../entites/UserEvent';
 
 class CreateUserEventInMemory implements IUserEventRepository {
   private userEvents: UserEvent[] = [];
@@ -36,6 +36,20 @@ class CreateUserEventInMemory implements IUserEventRepository {
     this.userEvents.push(userEvent);
 
     return userEvent;
+  }
+
+  public async findById(event_id: string): Promise<UserEvent | undefined> {
+    const eventExist = this.userEvents.find(event => event.id === event_id);
+    return eventExist;
+  }
+
+  public async update(changedEvent: UserEvent): Promise<UserEvent> {
+    const eventIndex = this.userEvents.findIndex(
+      event => event.id === changedEvent.id,
+    );
+    this.userEvents[eventIndex] = changedEvent;
+
+    return changedEvent;
   }
 }
 

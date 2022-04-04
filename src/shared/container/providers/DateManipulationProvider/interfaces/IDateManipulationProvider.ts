@@ -5,6 +5,8 @@ interface IDateManipulationProvider {
   addDateInDays(days: number): Date;
   addDateInHours(hours: number): Date;
   compareIfBefore(start_date: Date, end_date: Date): boolean;
+  compareIfAfter(start_date: Date, end_date: Date): boolean;
+  addHoursInDate(date: Date, hours: number): Date;
 }
 
 export default IDateManipulationProvider;
