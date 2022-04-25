@@ -1,7 +1,6 @@
 import IUserRepository from '@modules/users/repositories/IUserRepository';
 import IDateManipulationProvider from '@shared/container/providers/DateManipulationProvider/interfaces/IDateManipulationProvider';
 import { inject, injectable } from 'tsyringe';
-import UserEvent from '../../infra/typeorm/entites/UserEvent';
 import IUserEventRepository from '../../repositories/IUserEventRepository';
 import IAddEventGuestDTO from '@modules/user_event/dtos/IAddEventGuestDTO';
 import AppError from '@shared/error/AppError';

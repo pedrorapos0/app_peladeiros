@@ -29,11 +29,11 @@ class UserEvent {
   @JoinColumn({ name: 'responsible_id' })
   responsible: User;
 
-  @ManyToMany(() => User, user => user.id)
+  @ManyToMany(() => User)
   @JoinTable({
-    database: 'event_guests',
-    joinColumn: { name: 'user_event', referencedColumnName: 'id' },
-    inverseJoinColumn: { name: 'user', referencedColumnName: 'id' },
+    name: 'event_guests',
+    joinColumns: [{ name: 'event_id' }],
+    inverseJoinColumns: [{ name: 'guest_id' }],
   })
   guests: User[];
 

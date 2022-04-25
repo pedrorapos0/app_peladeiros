@@ -1,3 +1,4 @@
+import User from '@modules/users/infra/typeorm/entites/User';
 import ICreateUserEventDTO from '@modules/user_event/dtos/ICreateUserEventDTO';
 import IUserEventRepository from '@modules/user_event/repositories/IUserEventRepository';
 import UserEvent from '../../entites/UserEvent';
@@ -50,6 +51,11 @@ class CreateUserEventInMemory implements IUserEventRepository {
     this.userEvents[eventIndex] = changedEvent;
 
     return changedEvent;
+  }
+  public async listAllGuest(event_id: string): Promise<User[] | undefined> {
+    const event = this.userEvents.find(event => event.id === event_id);
+    const guests = event?.guests;
+    return guests;
   }
 }
 
