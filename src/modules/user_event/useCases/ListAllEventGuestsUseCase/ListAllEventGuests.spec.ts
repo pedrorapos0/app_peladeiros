@@ -1,17 +1,17 @@
 import UserRepositoryInMemory from '@modules/users/infra/typeorm/repositories/fakes/UserRepositoryInMemory';
 import UserEventRepository from '@modules/user_event/infra/typeorm/repositories/fakes/UserEventRepositoryInMemory';
-import ListAllEventGuests from '@modules/user_event/useCases/ListAllEventGuests/ListAllEventGuests';
+import ListAllEventGuestsUseCase from '@modules/user_event/useCases/ListAllEventGuestsUseCase/ListAllEventGuestsUseCase';
 import AppError from '@shared/error/AppError';
 
 let userRepository: UserRepositoryInMemory;
 let userEventRepository: UserEventRepository;
-let listAllEventGuests: ListAllEventGuests;
+let listAllEventGuests: ListAllEventGuestsUseCase;
 
 describe('List all event guests', () => {
   beforeEach(() => {
     userRepository = UserRepositoryInMemory.getInstance();
     userEventRepository = UserEventRepository.getInstance();
-    listAllEventGuests = new ListAllEventGuests(userEventRepository);
+    listAllEventGuests = new ListAllEventGuestsUseCase(userEventRepository);
   });
 
   it('Should be able to list all event guests', async () => {

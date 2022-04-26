@@ -2,7 +2,7 @@ import { Router } from 'express';
 import CreateUserEventController from '@modules/user_event/useCases/CreateUserEventUseCase/CreateUserEventController';
 import ensureAuthentication from '@modules/users/infra/http/middlewares/ensureAuthentication';
 import AddEventGuestController from '@modules/user_event/useCases/AddEventGuestUseCase/AddEventGuestController';
-import ListAllEventGuestsController from '@modules/user_event/useCases/ListAllEventGuests/ListAllEventGuestsController';
+import ListAllEventGuestsController from '@modules/user_event/useCases/ListAllEventGuestsUseCase/ListAllEventGuestsController';
 
 const userEventRouter = Router();
 const createUserEventController = new CreateUserEventController();

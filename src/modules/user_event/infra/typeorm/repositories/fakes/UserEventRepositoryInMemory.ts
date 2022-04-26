@@ -64,6 +64,12 @@ class CreateUserEventInMemory implements IUserEventRepository {
     );
     this.userEvents.splice(eventIndex, 1);
   }
+  public async findByResponsible(responsible_id: string): Promise<UserEvent[]> {
+    const eventsResponsible = this.userEvents.filter(
+      event => event.responsible_id === responsible_id,
+    );
+    return eventsResponsible;
+  }
 }
 
 export default CreateUserEventInMemory;

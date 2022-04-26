@@ -52,6 +52,16 @@ class UserEventRepository implements IUserEventRepository {
   public async delete(event_id: string, responsible_id: string): Promise<void> {
     await this.userEventRepository.delete(event_id);
   }
+
+  public async findByResponsible(responsible_id: string): Promise<UserEvent[]> {
+    const eventsResponsible = await this.userEventRepository.find({
+      where: {
+        responsible_id,
+      },
+    });
+
+    return eventsResponsible;
+  }
 }
 
 export default UserEventRepository;

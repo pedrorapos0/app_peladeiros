@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 
-import ListAllEventGuests from '@modules/user_event/useCases/ListAllEventGuests/ListAllEventGuests';
+import ListAllEventGuestsUseCase from '@modules/user_event/useCases/ListAllEventGuestsUseCase/ListAllEventGuestsUseCase';
 import { container } from 'tsyringe';
 
 class ListAllEventGuestsController {
@@ -10,7 +10,7 @@ class ListAllEventGuestsController {
   ): Promise<Response> {
     const { event_id } = request.params;
 
-   const listAllEventGuests = container.resolve(ListAllEventGuests);
+   const listAllEventGuests = container.resolve(ListAllEventGuestsUseCase);
 
     const guests = await listAllEventGuests.execute(event_id);
 
