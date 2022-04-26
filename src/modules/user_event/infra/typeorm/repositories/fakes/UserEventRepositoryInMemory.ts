@@ -57,6 +57,13 @@ class CreateUserEventInMemory implements IUserEventRepository {
     const guests = event?.guests;
     return guests;
   }
+
+  public async delete(event_id: string, responsible_id: string): Promise<void> {
+    const eventIndex = this.userEvents.findIndex(
+      event => event.id === event_id && responsible_id === responsible_id,
+    );
+    this.userEvents.splice(eventIndex, 1);
+  }
 }
 
 export default CreateUserEventInMemory;

@@ -1,27 +1,21 @@
-import User from '@modules/users/infra/typeorm/entites/User';
-import IUserEventRepository from '@modules/user_event/repositories/IUserEventRepository';
-import AppError from '@shared/error/AppError';
-import { inject, injectable } from 'tsyringe';
+import { Request, Response } from 'express';
 
-@injectable()
-class ListAllEventGuests {
-  constructor(
-    @inject('UserEventRepository')
-    private userEventRepository: IUserEventRepository,
-  ) {
-    this.userEventRepository = userEventRepository;
-  }
+import ListAllEventGuests from '@modules/user_event/useCases/ListAllEventGuests/ListAllEventGuests';
+import { container } from 'tsyringe';
 
-  public async execute(event_id: string): Promise<User[]> {
-    const eventExist = await this.userEventRepository.findById(event_id);
-    if (!eventExist) {
-      throw new AppError('Event not found!');
-    }
+class ListAllEventGuestsController {
+  public async handler(
+    request: Request,
+    response: Response,
+  ): Promise<Response> {
+    const { event_id } = request.params;
 
-    const guests = eventExist.guests;
+   const listAllEventGuests = container.resolve(ListAllEventGuests);
 
-    return guests;
+    const guests = await listAllEventGuests.execute(event_id);
+
+    return response.json(guests);
   }
 }
 
-export default ListAllEventGuests;
+export default ListAllEventGuestsController;

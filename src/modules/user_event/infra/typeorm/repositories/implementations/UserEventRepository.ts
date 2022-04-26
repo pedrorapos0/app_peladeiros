@@ -40,11 +40,17 @@ class UserEventRepository implements IUserEventRepository {
   }
 
   public async listAllGuest(event_id: string): Promise<User[] | undefined> {
-    const event = await this.userEventRepository.findOne(event_id);
+    const event = await this.userEventRepository.findOne(event_id, {
+      relations: ['guests'],
+    });
 
     const guests = event?.guests;
 
     return guests;
+  }
+
+  public async delete(event_id: string, responsible_id: string): Promise<void> {
+    await this.userEventRepository.delete(event_id);
   }
 }
 

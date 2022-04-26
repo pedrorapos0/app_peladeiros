@@ -7,6 +7,7 @@ interface IUserEventRepository {
   findById(event_id: string): Promise<UserEvent | undefined>;
   update(changedEvent: UserEvent): Promise<UserEvent>;
   listAllGuest(event_id: string): Promise<User[] | undefined>;
+  delete(event_id: string, responsible_id: string): Promise<void>;
 }
 
 export default IUserEventRepository;
