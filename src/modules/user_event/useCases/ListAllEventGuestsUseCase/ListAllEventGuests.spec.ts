@@ -31,8 +31,8 @@ describe('List all event guests', () => {
       title: 'racha',
       minimum_number_guests: 10,
       maximum_number_guests: 20,
-      start_date: new Date('2022-05-01 20:00:00'),
-      end_date: new Date('2022-05-01 22:10:00'),
+      start_date: new Date('2022-12-01 20:00:00'),
+      end_date: new Date('2022-12-01 22:10:00'),
       responsible_id: guest1.id,
     });
 

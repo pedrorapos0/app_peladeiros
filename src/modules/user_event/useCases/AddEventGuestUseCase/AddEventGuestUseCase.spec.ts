@@ -37,8 +37,8 @@ describe('Add event guest', () => {
 
     const newEvent = await userEventRepositoryInMemory.create({
       title: 'event test',
-      start_date: new Date('2022-04-27 22:00:00'),
-      end_date: new Date('2022-03-24 23:00:00'),
+      start_date: new Date('2022-12-27 22:00:00'),
+      end_date: new Date('2022-12-24 23:00:00'),
       minimum_number_guests: 12,
       maximum_number_guests: 20,
       responsible_id: event_responsabile.id,
@@ -71,8 +71,8 @@ describe('Add event guest', () => {
 
     const newEvent = await userEventRepositoryInMemory.create({
       title: 'event test',
-      start_date: new Date('2022-04-28 22:00:00'),
-      end_date: new Date('2022-04-28 23:00:00'),
+      start_date: new Date('2022-12-28 22:00:00'),
+      end_date: new Date('2022-12-28 23:00:00'),
       minimum_number_guests: 16,
       maximum_number_guests: 24,
       responsible_id: event_responsabile.id,
@@ -102,8 +102,8 @@ describe('Add event guest', () => {
 
     const newEvent = await userEventRepositoryInMemory.create({
       title: 'event test',
-      start_date: new Date('2022-03-26 19:00:00'),
-      end_date: new Date('2022-03-26 21:00:00'),
+      start_date: new Date('2022-04-26 19:00:00'),
+      end_date: new Date('2022-04-26 21:00:00'),
       minimum_number_guests: 15,
       maximum_number_guests: 20,
       responsible_id: event_responsabile.id,

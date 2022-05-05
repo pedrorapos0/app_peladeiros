@@ -58,6 +58,7 @@ class UserEventRepository implements IUserEventRepository {
       where: {
         responsible_id,
       },
+      relations: ['responsible'],
     });
 
     return eventsResponsible;

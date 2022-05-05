@@ -13,14 +13,12 @@ class ListAllEventGuests {
   }
 
   public async execute(event_id: string): Promise<User[]> {
-    const eventExist = await this.userEventRepository.findById(event_id);
+    const eventExist = await this.userEventRepository.listAllGuest(event_id);
     if (!eventExist) {
       throw new AppError('Event not found!');
     }
 
-    const guests = eventExist.guests;
-
-    return guests;
+    return eventExist;
   }
 }
 

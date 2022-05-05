@@ -26,16 +26,16 @@ describe('list all user events of an responsible', () => {
 
     const event1 = await userEventRepositoryInMemory.create({
       title: 'event test1',
-      start_date: new Date('2022-05-02 20:00:00'),
-      end_date: new Date('2022-05-02 23:00:00'),
+      start_date: new Date('2022-12-02 20:00:00'),
+      end_date: new Date('2022-12-02 23:00:00'),
       minimum_number_guests: 20,
       responsible_id: responsible.id,
     });
 
     const event2 = await userEventRepositoryInMemory.create({
       title: 'event test2',
-      start_date: new Date('2022-05-09 20:00:00'),
-      end_date: new Date('2022-05-09 23:00:00'),
+      start_date: new Date('2022-12-09 20:00:00'),
+      end_date: new Date('2022-12-09 23:00:00'),
       minimum_number_guests: 20,
       responsible_id: responsible.id,
     });

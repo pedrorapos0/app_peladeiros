@@ -25,8 +25,8 @@ describe('Delete a UserEvent', () => {
     });
     const eventTest = await userEventRepository.create({
       title: 'Event test',
-      start_date: new Date('2022-05-02 20:00:00'),
-      end_date: new Date('2022-05-02 22:10:00'),
+      start_date: new Date('2022-12-02 20:00:00'),
+      end_date: new Date('2022-12-02 22:10:00'),
       responsible_id: responsibleEvent.id,
       minimum_number_guests: 15,
     });
@@ -45,8 +45,8 @@ describe('Delete a UserEvent', () => {
   it('should not be able delete a userEvent non-exist', async () => {
     const eventTest = await userEventRepository.create({
       title: 'Event test2',
-      start_date: new Date('2022-05-02 20:00:00'),
-      end_date: new Date('2022-05-02 22:10:00'),
+      start_date: new Date('2022-12-02 20:00:00'),
+      end_date: new Date('2022-12-02 22:10:00'),
       responsible_id: '1234567',
       minimum_number_guests: 15,
     });

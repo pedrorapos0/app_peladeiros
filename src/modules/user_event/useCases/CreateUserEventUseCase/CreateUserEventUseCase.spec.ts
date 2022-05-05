@@ -32,8 +32,8 @@ describe('Create use event', () => {
     const event = await createUserEventUseCase.execute({
       title: 'Event Test',
       responsible_id: eventResponsible.id,
-      start_date: new Date('2022-05-23 20:00:00'),
-      end_date: new Date('2022-05-23 23:00:00'),
+      start_date: new Date('2022-12-23 20:00:00'),
+      end_date: new Date('2022-12-23 23:00:00'),
       minimum_number_guests: 12,
       maximum_number_guests: 18,
     });
@@ -46,8 +46,8 @@ describe('Create use event', () => {
       createUserEventUseCase.execute({
         title: 'Event Test',
         responsible_id: 'non-exist',
-        start_date: new Date('2022-05-23 20:00:00'),
-        end_date: new Date('2022-05-23 23:00:00'),
+        start_date: new Date('2022-12-23 20:00:00'),
+        end_date: new Date('2022-12-23 23:00:00'),
         minimum_number_guests: 12,
         maximum_number_guests: 18,
       }),
