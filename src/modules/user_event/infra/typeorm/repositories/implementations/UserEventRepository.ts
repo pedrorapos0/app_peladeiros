@@ -31,7 +31,9 @@ class UserEventRepository implements IUserEventRepository {
   }
 
   public async findById(event_id: string): Promise<UserEvent | undefined> {
-    const userEvent = await this.userEventRepository.findOne(event_id);
+    const userEvent = await this.userEventRepository.findOne(event_id, {
+      relations: ['guests'],
+    });
     return userEvent;
   }
   public async update(changedEvent: UserEvent): Promise<UserEvent> {
